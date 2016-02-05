@@ -1,0 +1,245 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{relsize}
+\usepackage{tikz}
+
+\usepgfplotslibrary{fillbetween}
+\setcounter{secnumdepth}{0}
+\allowdisplaybreaks[1]
+
+\newcommand{\doubleu}[1]{\underline{\underline{#1}}}
+\newcommand{\ddx}[1]{\frac{d}{dx} \bigg( #1 \bigg)}
+\newcommand{\partiald}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\matrixpartiald}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\mathematica}[1]{Mathematica: \texttt{#1}}
+\newcommand{\intbyparts}[7]{
+	\begin{aligned}
+		\text{Let}\   #1 &= #4      &      &\text{and}\    &   #2 &= #6 \\
+		\Rightarrow \frac{d#1}{d#3} &= #5 \   &  &   &  \Rightarrow \frac{d#2}{d#3} &= #7
+	\end{aligned}
+	\\ \text{We know} \  \int #1 \, d#2 = #1#2 - \int #2 \, d#1 \\
+	= {#4 \cdot #6} - \int {#6 \cdot #5} \, d#3
+}
+
+\begin{document}
+	\noindent {\bf Rukmal Weerawarana (1337197)} \newline
+	\noindent {\bf CFRM 460} \newline
+	\noindent {\bf Homework 4 Solutions} \newline
+	\noindent {\bf 2/5/16}
+	\newline \hrule
+
+
+	\section{Question 1}
+		\subsection{Part (b)}
+			\begin{gather*}
+				\iint_D e^{y^2} \, dA \text{, where } D = \{(x,y): 0 \leq y \leq 1, 0 \leq x \leq y\} \\
+				\text{The region D is as follows:}
+			\end{gather*}
+			{\centering
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines = left,
+					axis line style={shorten >=-10pt, shorten <=-10pt},
+					xlabel = $x$,
+					ylabel = $y$,
+					ylabel style={rotate=-90},
+					ytick={1},
+					xtick={1},
+					height=2.5cm
+					]
+					\addplot [name path=line, domain=1:0, color=blue] {1-x};
+					\addplot [name path=axis, domain=1:0, color=blue] {0};
+					\addplot [
+					thick,
+					color=blue,
+					fill=blue,
+					opacity=0.5
+					]
+					fill between[
+					of=line and axis,
+					soft clip={domain=0:1},
+					];
+				\end{axis}
+			\end{tikzpicture}
+			\par}
+			\begin{gather*}
+				\Rightarrow \iint_D e^{y^2} \, dA = \int_0^1\int_0^y e^{y^2} \, dxdy \\
+				= \int_0^1 \left[ xe^{y^2} \right]_0^y \, dy = \int_0^1 ye^{y^2} \, dy = \left[ \frac{1}{2}e^{y^2} \right]_0^1 = \doubleu{\frac{e}{2} - \frac{1}{2}}
+			\end{gather*}
+
+
+	\section{Question 2}
+		\subsection{Part (a)}
+			\begin{gather*}
+				\iint_D e^{\frac{x+y}{x-y}} \, dA \\
+				\text{Changing variables using:} \\
+				u = x + y \tag{1} \\
+				v = x - y \tag{2} \\
+				\text{Expressing $x$ and $y$ in terms of $u$ and $v$:} \\
+				\text{(1)$+$(2)} \Rightarrow x = \frac{u+v}{2} \\
+				\text{(1)$-$(2)} \Rightarrow y = \frac{u-v}{2} \\
+				\text{Substituting these values of $x$ and $y$ in the initial equation:} \\
+				e^{\frac{x+y}{x-y}} = \exp{\left[ \frac{x+y}{x-y} \right]} = \exp{ \left[ \frac{ \frac{u+v}{2} + \frac{u-v}{2} }{ \frac{u+v}{2} - \frac{u-v}{2} } \right]} = \exp{ \left[ \frac{ \frac{u+v+u-v}{2} }{ \frac{u+v-u+v}{2} } \right]} \\
+				= \exp {\left[ \frac{ \frac{2u}{2} }{ \frac{2v}{2} } \right]} = \exp{\left[ \frac{u}{v} \right]} = e^{\frac{u}{v}} \\
+				\text{Calculating the Jacobian for the change of variables:} \\
+				\Rightarrow \text{D}(x(u,v), y(u,v)) =
+				\begin{bmatrix}
+					\matrixpartiald{x}{u} & \matrixpartiald{x}{v} \\
+					\\
+					\matrixpartiald{y}{u} & \matrixpartiald{y}{v}
+				\end{bmatrix}
+				=
+				\begin{bmatrix}
+					\dfrac{1}{2} & \dfrac{1}{2} \\
+					\\
+					\dfrac{1}{2} & -\dfrac{1}{2}
+				\end{bmatrix} \\
+				\text{Finding the determinant of the Jacobian:} \\
+				\Rightarrow \det \left[ D(x(u,v), y(u,v)) \right] = \partiald{x}{u}\partiald{y}{v} - \partiald{x}{v}\partiald{y}{u} = \left( \frac{1}{2} \cdot -\frac{1}{2} \right) - \left( \frac{1}{2} \cdot \frac{1}{2} \right) = -\frac{1}{4} - \frac{1}{4} = -\frac{1}{2} \\
+				\text{Applying the 2-dimensional change of variable formula:} \\
+				\Rightarrow \iint_D e^{\frac{x+y}{x-y}} \, dA = \iint_S e^{\frac{u}{v}} \cdot \left[ \partiald{x}{u}\partiald{y}{v} - \partiald{x}{v}\partiald{y}{u} \right] \, dS = \doubleu{ \iint_S -\frac{1}{2} e^{\frac{u}{v}} \, dvdu }
+			\end{gather*}
+
+		\subsection{Part (b)}
+			\begin{center}
+			\begin{gather*}
+				\text{Region D is bound by the following vertices on the $xy$ plane:} \\
+				(x_1,y_1) = (1,0) \\
+				(x_2,y_2) = (2,0) \\
+				(x_3,y_3) = (0,-2) \\
+				(x_4,y_4) = (0,-1) \\
+				\text{Plotting Region D on the $xy$ plane:}
+			\end{gather*}
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines = middle,
+					axis line style={shorten >=-10pt, shorten <=-10pt},
+					xlabel = $x$,
+					ylabel = $y$,
+					xtick = {1,2},
+					ytick = {-1,-2},
+					height=4cm
+					]
+					\addplot [color=blue, mark=*] coordinates {(1,0) (2,0) (0,-2) (0,-1)};
+					\addplot [name path=line1, domain=0:1] {x-1};
+					\addplot [name path=line2, domain=0:2] {x-2};
+					\addplot [
+					thick,
+					color=blue,
+					fill=blue,
+					opacity=0.5
+					]
+					fill between[
+					of=line1 and line2,
+					soft clip={domain=0:2},
+					];
+				\end{axis}
+			\end{tikzpicture}
+			\begin{gather*}
+				\text{Transforming the vertices of Region D from the $xy$ plane to the $uv$ plane using $u=x+y$ and $v=x-y$:} \\
+				(x_1,y_1) = (1,0) \Rightarrow (u_1,v_1) = (1,1) \\
+				(x_2,y_2) = (2,0) \Rightarrow (u_2,v_2) = (2,2) \\
+				(x_3,y_3) = (0,-2) \Rightarrow (u_3,v_3) = (-2,2) \\
+				(x_4,y_4) = (0,-1) \Rightarrow (u_4,v_4) = (-1,1) \\
+				\therefore \, \text{Region S has vertices $(u_1,v_1), (u_2,v_2), (u_3,v_3), (u_4,v_4)$ on the $uv$ plane.} \\
+				\text{Plotting Region S on the $uv$ plane:}
+			\end{gather*}
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines = middle,
+					axis line style={shorten >=-10pt, shorten <=-10pt},
+					xlabel = $u$,
+					ylabel = $v$,
+					ytick = {1,2},
+					height=4cm
+					]
+					\addplot [color=blue, mark=*] coordinates {(1,1) (2,2) (-2,2) (-1,1)};
+					\addplot [name path=line1, domain=-2:2] {2};
+					\addplot [name path=line2, domain=-1:1] {1};
+					\addplot [name path=line3, domain=-1:1] {0};
+					\addplot [
+					thick,
+					color=blue,
+					fill=blue,
+					opacity=0.5
+					]
+					fill between[
+					of=line1 and line2,
+					soft clip={domain=-2:2},
+					];
+				\end{axis}
+			\end{tikzpicture}
+			\end{center}
+
+		\subsection{Part (c)}
+			\begin{gather*}
+				\iint_S -\frac{1}{2} e^{\frac{u}{v}} \, dvdu \\
+				\text{Using the vertices of Region S from Part (b), Region S can be defined as follows:} \\
+				S = \{ (u,v): -v \leq u \leq v, 1 \leq v \leq 2 \} \\
+				\Rightarrow \iint_S -\frac{1}{2} e^{\frac{u}{v}} \, dvdu = \int_1^2\int_{-v}^v -\frac{1}{2} e^{\frac{u}{v}} \, dudv = \int_1^2 \left[ -\frac{v}{2} e^{\frac{u}{v}} \right]_{-v}^{v} \, dv = \int_1^2 \left( -\frac{v}{2}e - \left( -\frac{v}{2} e^{-1} \right) \right)  dv \\
+				\int_1^2 \frac{v}{2} \left( \frac{1}{e} - e \right) dv = \left[ \frac{v^2}{4} \left( \frac{1}{e} - e \right) \right]_1^2 = \left( \frac{1}{e} - e \right) - \frac{1}{4} \left( \frac{1}{e} - e \right) = \doubleu{ \frac{3}{4} \left( \frac{1}{e} - e \right) }
+			\end{gather*}
+
+
+	\section{Question 3}
+	 	\begin{gather*}
+			\text{Recall, the Black-Scholes formula for the price of a European call option is as follows:} \\
+			C(\cdot) = Se^{-q(T-t)} \Phi(d_+) - Ke^{-r(T-t)} \Phi(d_-) \\
+			\text{Also, recall the Greeks $\Delta$ \& $\Gamma$, and how they are related to $C(\cdot)$:} \\
+			\text{Delta, } \Delta (S) = \partiald{C(S)}{S} \\
+			\text{Gamma, } \Gamma (S) = \partiald{^2C(S)}{S^2} \\
+			\text{The taylor polynomial for a function $f(x)$ of order $n$ about a point $a$ is:} \\
+			P_n(x) = f(a) + (x-a) f'(a) + \frac{(x-a)^2}{2}f''(a) + \dotsb + \frac{(x-a)^n}{n!}f^{(n)}(a) = \mathlarger{\mathlarger{\sum}}_{k=0}^n \frac{(x-a)^k}{k!} f^{(k)}(a) \\
+			\Rightarrow \, \text{By using the information above, and treating $C(\cdot)$ as a function of a single variable S,} \\
+			\text{the second-order taylor polynomial around point $S_0$ for $C(S)$ is as follows:} \\
+			P_2(x) = f(a) + (x-a)f'(a) + \frac{(x-a)^2}{2}f''(a) \\
+			\Rightarrow P_2(S) = C(S_0) + (S-S_0)\partiald{}{S}(C(S_0)) + \frac{(S-S_0)^2}{2}\partiald{^2}{S^2}(C(S_0)) \\
+			= C(S_0) + (S-S_0)\Delta(S_0) + \left(\frac{S^2}{2} - S_0S + \frac{S_0^2}{2}\right)\Gamma(S_0) = C(S_0) + S \Delta(S_0) -  S_0 \Delta(S_0)+ \frac{\Gamma}{2}S^2 - S_0\Gamma(S_0)S + \frac{\Gamma(S_0)S_0^2}{2} \\
+			\therefore P_2(S) = \doubleu{ \frac{\Gamma(S_0)}{2} S^2 + \left( \Delta(S_0) - S_0 \Gamma(S_0) \right) S + \left( C(S_0) - S_0\Delta(S_0) + \frac{S_0^2\Gamma(S_0)}{2} \right) }
+		\end{gather*}
+
+
+	\section{Question 4}
+		\subsection{Part (a)}
+			\begin{center}
+			\begin{gather*}
+				\iint_D \sqrt{x^2+y^2} \, dxdy \\
+				\text{Where } D = \{ (x,y) : 1 \leq x^2+y^2 \leq 9, y \geq 0 \} \\
+				\text{Plotting Region D on the $xy$ plane:}
+			\end{gather*}
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines = middle,
+					axis line style={shorten >=-10pt, shorten <=-10pt},
+					xlabel = $x$,
+					ylabel = $y$,
+					xtick = {-3,-2,-1,0,1,2,3},
+					ytick = {0,1,2,3},
+					height=5cm,
+					% width=10cm
+					]
+					\addplot [name path=line1, domain=-3:3, samples=1000] {sqrt(9-x^2)};
+					\addplot [name path=line2, domain=-1:1, samples=1000] {sqrt(1-x^2)};
+					\addplot [
+					thick,
+					color=blue,
+					fill=blue,
+					opacity=0.5
+					]
+					fill between[
+					of=line1 and line2,
+					soft clip={domain=-3:4},
+					];
+				\end{axis}
+			\end{tikzpicture}
+			\end{center}
+\end{document}

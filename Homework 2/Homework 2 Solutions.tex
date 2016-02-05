@@ -1,0 +1,163 @@
+\documentclass[letterpaper,10pt]{article}
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{0}
+\allowdisplaybreaks[1]
+
+\newcommand{\doubleu}[1]{\underline{\underline{#1}}}
+\newcommand{\ddx}[1]{\frac{d}{dx} \bigg( #1 \bigg)}
+\newcommand{\mathematica}[1]{Mathematica: \texttt{#1}}
+\newcommand{\intbyparts}[7]{
+	\begin{aligned}
+		\text{Let}\   #1 &= #4      &      &\text{and}\    &   #2 &= #6 \\
+		\Rightarrow \frac{d#1}{d#3} &= #5 \   &  &   &  \Rightarrow \frac{d#2}{d#3} &= #7
+	\end{aligned}
+	\\ \text{We know} \  \int #1 d#2 = #1#2 - \int #2 d#1 \\
+	= {#4 \cdot #6} - \int {#6 \cdot #5} d#3
+}
+
+\begin{document}
+
+	\noindent {\bf Rukmal Weerawarana (1337197)} \newline
+	\noindent {\bf CFRM 460} \newline
+	\noindent {\bf Homework 2 Solutions} \newline
+	\noindent {\bf 1/22/16}
+	\newline \hrule
+
+
+	\section{Question 1}
+		\subsection{Part (a)}
+			\begin{gather*}
+				\int x^2 \log (x) dx \\
+				\intbyparts{u}{v}{x}{\log (x)}{\frac{1}{x}}{\frac{x^3}{3}}{x^2} \\
+				= \frac{x^3 \log (x)}{3} - \int \frac{x^2}{2} dx \\
+				= \doubleu{\frac{x^3}{9} \bigg(3\log(x) - 1 \bigg) + C}
+			\end{gather*}
+			\mathematica{Integrate[x\^{}2 Log[x], x]}
+
+		\subsection{Part (b)}
+			\begin{gather*}
+				\int x^2 e^x dx \\
+				\intbyparts{u}{v}{x}{x^2}{2x}{e^x}{e^x} \\
+				\text{Using integration by parts again with the second part of the equation:} \\
+				\intbyparts{m}{n}{x}{2x}{2}{e^x}{e^x} \\
+				= 2xe^x - 2e^x + C \displaybreak \\
+				\text{Substituting this back in the original equation:} \\
+				\Rightarrow x^2 e^x - \int e^x 2x dx
+				= x^2 e^x - (2xe^x - 2e^x) + C \\
+				= \doubleu{e^x(x^2 - 2x + 2) + C}
+			\end{gather*}
+			\mathematica{Integrate[x\^{}2 Exp[x], x]}
+
+		\subsection{Part (c)}
+			\begin{gather*}
+				\int \Big(\log (x) \Big) ^2 dx \\
+				\text {Let } u = \log (x)
+				\Rightarrow x = e^u \\
+				\frac{du}{dx} = \frac{1}{x}
+				\Rightarrow dx = xdu \\
+				\Rightarrow \int \Big( \log (x) \Big) ^2 dx
+				= \int u^2 x du
+				= \int u^2 e^u du \\
+				\text{Note, this is the same as Part (b). Thus, using the same solution:}\\
+				\int u^2 e^u du = e^u (u^2 -2u +2) + C \\
+				\text{But, } u = \log(x) \\
+				\Rightarrow e^u (u^2 -2u +2) + C
+				= e^{\log(x)} (\big(\log(x)\big)^2 - 2\log(x) + 2) + C \\
+				= \doubleu{x\big(\log(x)\big)^2 -2x\log(x) + 2x + C}
+			\end{gather*}
+			\mathematica{Integrate[Log[x]\^{}2, x]}
+
+
+	\section{Question 2}
+		\subsection{Part (a)}
+			\begin{gather*}
+				\int_{4}^7 x^2 \log(x) dx \\
+				\text{Note, the integration is the same as Question 1 Part (a)} \\
+				\text{Thus, the limits can be substituted directly in the solution as follows:} \\
+				\Rightarrow \int_{4}^7 x^2 \log(x) dx = \Bigg[ \frac{x^3}{9} \bigg( 3\log(x) - 1 \bigg) \Bigg]_{4}^{7} \\
+				= \bigg( \frac{7^3}{9} \Big( 3\log(7) - 1 \Big) \bigg) - \bigg( \frac{4^3}{9} \Big( 3\log(4) -1 \Big) \bigg) = \frac{3 \big( 343\log(7) - 64\log(4) \big) - 343 + 64}{9} \\
+				= \doubleu{\frac{343\log(7)-64\log(4)}{3} - 31}
+			\end{gather*}
+			\mathematica{Integrate[x\^{}2 Log[x], \{x, 4, 7\}]}
+			\newpage
+
+		\subsection{Part (b)}
+			\begin{gather*}
+				\int_{0}^{\infty} \frac{1}{(1+x)^2} dx \\
+				\Rightarrow \int_{0}^{\infty} \frac{1}{(1+x)^2} dx = \lim_{t \rightarrow \infty} \int_{0}^{t} \frac{1}{(1+x)^2} dx \\
+				\text{Let } u = 1 + x \\
+				\frac{du}{dx} = 1
+				\Rightarrow dx=du \\
+				\begin{aligned}
+					\text{Upper limit: } &u(t) = t+1 \\
+					\text{Lower limit: } &u(0) = 1+0 = 1
+				\end{aligned}
+				\\ \Rightarrow \lim_{t \rightarrow \infty} \int_{0}^{t} \frac{1}{(1+x)^2} dx
+				= \lim_{t \rightarrow \infty} \int_{1}^{t+1} \frac{1}{u^2} du \\
+				= \lim_{t \rightarrow \infty} \Bigg( \bigg[ \frac{-1}{u} \bigg]_{1}^{t+1} \Bigg)
+				= \lim_{t \rightarrow \infty} \Bigg( \frac{-1}{t+1} - \Big( \frac{-1}{1} \Big) \Bigg)
+				= 1 + \lim_{t \rightarrow \infty} \Bigg( \frac{-1}{t+1} \Bigg)
+				= \doubleu{1}
+			\end{gather*}
+			\mathematica{Integrate[1/(1 + x)\^{}2, \{x, 0, Infinity\}]}
+
+
+	\section{Question 3}
+		\begin{gather*}
+			g(x) = \frac{1}{\sqrt{2\pi}} \int_{0}^{b(x)} e^{-\frac{y^2}{2}} dy \\
+			b(x) = \frac{1}{\sigma\sqrt{T}} \bigg[ \log \Big(\frac{x}{K}\Big) + \bigg( r + \frac{\sigma^2}{2} \bigg) T \bigg] \\
+			\text{Such that } \{K, T, \sigma, r\} \in \mathbb R_{+} \\ \\
+			\text{Let } f(y) = \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} \\
+			\text{Also, let there be a function } F(y) \text{ such that } \ddx{F(y)} = f(y) \\ \\
+			\Rightarrow g(x) = \int_{0}^{b(x)} \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} dy = \int_{0}^{b(x)} f(y) dy \\ \\
+			\therefore \text{Based on the above conjectures, and as per the fundamental theorum of calculus (FTC):} \\
+			g(x) = \int_{0}^{b(x)} f(y) dy = \bigg[F(y)\bigg]_{0}^{b(x)} = F\big(b(x)\big) - F(0)\\ \\
+			\text{As we want to find } \ddx{g(x)} \text{, the derivative of both sides of the equation can be taken:} \\
+			\Rightarrow g\prime(x) = \ddx{F\big(b(x)\big) - F(0)} = \ddx{F\big(b(x)\big)} - \ddx{F(0)}\\
+			\text{As } F(0) \text{ is a constant, } \ddx{F(0)} = 0 \\
+			\therefore g\prime(x) = \ddx{F\big(b(x)\big)} \\ \\
+			\text{Using the chain rule:}\\
+			\Rightarrow g\prime(x) = F\prime\big(b(x)\big) \cdot b\prime(x) \\ \\
+			\text{But, } F\prime(y) = f(y) \text{. Substituting this in the equation, we can show that:}\\
+			g\prime(x) = f(b(x)) \cdot b\prime(x)\\ \\
+			\text{To solve for } g\prime(x) \text{, we must first find } b\prime(x) \\
+			b\prime(x) = \ddx{\frac{1}{\sigma\sqrt{T}} \bigg[ \log \Big(\frac{x}{K}\Big) + \bigg( r + \frac{\sigma^2}{2} \bigg) T \bigg]}
+			= \ddx{\frac{1}{\sigma\sqrt{T}} \cdot \log \Big(\frac{x}{K}\Big)} + \ddx{\frac{\sqrt{T}}{\sigma} \cdot \bigg( r + \frac{\sigma^2}{2} \bigg) } \\
+			= \frac{1}{\sigma\sqrt{T}} \cdot \ddx{\log \Big(\frac{x}{K}\Big)} = \frac{1}{\sigma\sqrt{T}} \cdot \frac{1}{\frac{x}{K}} \cdot \frac{1}{K} = \frac{1}{\sigma\sqrt{T}} \cdot \frac{K}{x} \cdot \frac{1}{K} \\
+			\therefore b\prime(x) = \doubleu{\frac{1}{\sigma\sqrt{T}x}} \\ \\
+			\text{Plugging this into the equation for } g\prime(x) \text{, we get:} \\
+			g\prime(x) = f(b(x)) \cdot \frac{1}{\sigma\sqrt{T}x}
+			= \frac{1}{\sqrt{2\pi}} e^{-\frac{(b(x))^2}{2}} \cdot \frac{1}{\sigma\sqrt{T}x} \\ \\
+			\therefore g\prime(x) = \doubleu{\frac{e^{-\frac{(b(x))^2}{2}}}{\sqrt{2 \pi T}\sigma x}} \\
+		\end{gather*}
+		\mathematica{SetAttributes[\{T, \textbackslash[Sigma], K, r\}, Constant]; b[x\_] := (1/(\textbackslash[Sigma] \textbackslash[Sqrt](T)))[Log[x/K] + T (r + (\textbackslash[Sigma]\^{}2)/2)]; f[y\_] := 1/(2 Pi)\^{}(1/2) Exp[-y\^{}2/2]; g[x\_] := Integrate[f[y], \{y, 0, b[x]\}]; D[g[x], x]}
+
+	\section{Question 4}
+		\begin{gather*}
+			\phi(u)=\frac{1}{\sqrt{2\pi}} e^{-\frac{u^2}{2}} \\
+			\text{Such that } \Phi(x) = \int_{-\infty}^{x} \phi(u) du
+		\end{gather*}
+
+		\subsection{Part (a)}
+			\begin{gather*}
+				\text{Let } \phi(-x) = \phi(x) \\
+				\text{LHS: } \phi(-x) = \frac{1}{\sqrt{2\pi}} e^{\frac{-(-x)^2}{2}}
+				= \frac{e^{\frac{-x^2}{2}}}{\sqrt{2\pi}} \\
+				\text{RHS: } \phi(x) = \frac{1}{\sqrt{2\pi}} e^{\frac{-(x)^2}{2}}
+				= \frac{e^{\frac{-x^2}{2}}}{\sqrt{2\pi}} \\
+				\Rightarrow \text{LHS} = \text{RHS} \\
+				\therefore \phi(-x) = \phi(x)
+			\end{gather*}
+			\mathematica{\textbackslash[Phi][u\_] := (1/Sqrt[2 Pi]) Exp[- u\^{}2 / 2]; \textbackslash[Phi][-x] == \textbackslash[Phi][x]}
+
+		\subsection{Part (b)}
+			\mathematica{\textbackslash[Phi][u\_] := (1/Sqrt[2 Pi]) Exp[-u\^{}2/2]; \textbackslash[CapitalPhi][x\_] := Integrate[\textbackslash[Phi][u], {u, -Infinity, x}]; \textbackslash[CapitalPhi][-x] == 1 - \textbackslash[CapitalPhi][x]}
+\end{document}

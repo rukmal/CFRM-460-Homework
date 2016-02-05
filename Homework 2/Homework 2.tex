@@ -1,0 +1,87 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\newcommand{\transpose}{^{\top}}
+
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercice}
+
+
+\begin{document}
+\thispagestyle{empty}
+
+\hrule \vspace{0.5em}
+\noindent {\bf CFRM 460: Mathematical Methods for Quantitative Finance} \hfill Homework 2 \newline \hrule
+
+\vspace{0.5em}
+
+Solve the exercises by hand and verify your answers using Mathematica.
+
+\vspace{0.5em}
+
+\begin{enumerate}
+\item Compute the following antiderivatives.
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item $\displaystyle \int x^{2} \log(x) \, dx$
+
+\vspace{0.5em}
+
+\item $\displaystyle \int x^{2} e^{x} \, dx$
+
+\vspace{0.5em}
+
+\item $\displaystyle \int \big[\log(x)\big]^{2} \, dx$
+\end{enumerate}
+
+\vspace{3em}
+
+
+\item Evaluate the following definite integrals.
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item $\displaystyle \int_{4}^{7} x^{2} \log(x) \, dx$
+
+\vspace{0.5em}
+
+\item $\displaystyle \int_{0}^{\infty} \frac{1}{(1 + x)^{2}} \, dx$
+\end{enumerate}
+
+\vspace{3em}
+
+
+\item Let $K$, $T$, $\sigma$, and $r$ be positive constants and let
+
+$$g(x) = \frac{1}{\sqrt{2\pi}} \int_{0}^{b(x)} e^{-\frac{y^{2}}{2}} \, dy$$
+
+where $b(x) = \frac{1}{\sigma \sqrt{T}} \left[ \log \left( \frac{x}{K} \right) +  \left( r + \frac{\sigma^{2}}{2} \right) T \right]$. Compute $g'(x)$.
+
+\vspace{3em}
+\item Let $\displaystyle \phi(u) = \frac{1}{\sqrt{2 \pi}} e^{-u^2 / 2}$ so that $\displaystyle \Phi(x) = \int_{-\infty}^{x} \phi(u) \, du$ \hspace{0.5em} (i.e., the $\Phi(x)$ in Black-Scholes).
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item For $x > 0$, show that $\phi(-x) = \phi(x)$.
+
+\vspace{0.5em}
+
+\item Given that $\displaystyle \lim_{x \rightarrow \infty} \Phi(x) = 1$, use the properties of the integral as well as a substitution to show that $\Phi(-x) = 1 - \Phi(x)$ \hspace{0.25em} (again, assuming $x > 0$).
+
+\end{enumerate}
+\end{enumerate}
+
+
+\vfill \hrule \vspace{2mm} \centerline {\tt \tiny http://computational-finance.uw.edu}
+\end{document}

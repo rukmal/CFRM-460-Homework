@@ -1,0 +1,98 @@
+\documentclass[letterpaper,12pt,fleqn]{article}
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{enumerate}
+
+%\newcommand{\transpose}{^{\intercal}}
+\newcommand{\transpose}{^{\top}}
+
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercice}
+
+
+\begin{document}
+\pagestyle{empty}
+
+\hrule \vspace{0.5em}
+\noindent {\bf CFRM 460: Mathematical Methods for Quantitative Finance} \hfill Homework 3 \newline \hrule
+
+\vspace{1em}
+
+\begin{enumerate}
+\item The Black-Scholes price for a European put option is
+\begin{equation}
+P(S, t, K, T, r, q, \sigma) = Ke^{-r(T - t)} \Phi(-d_{-}) - Se^{-q(T - t)} \Phi(-d_{+})
+\label{eqn:bsp}
+\end{equation}
+where
+$$d_{+} = \frac{\log\left(\frac{S}{K}\right) + \left(r - q + \frac{\sigma^{2}}{2} \right) \big( T - t \big)}{\sigma \sqrt{T - t}}$$
+and
+$$d_{-} = d_{+} - \sigma \sqrt{T - t} = \frac{\log\left(\frac{S}{K}\right) + \left(r - q - \frac{\sigma^{2}}{2} \right) \big( T - t \big)}{\sigma \sqrt{T - t}}$$
+
+\vspace{1em}
+
+Compute each of
+\begin{enumerate}[(a)]
+\item $\displaystyle \Delta(P) = \frac{\partial P}{\partial S}$
+\item $\displaystyle \Gamma(P) = \frac{\partial^{2} P}{\partial S^{2}}$
+\item $\displaystyle \theta(P) = \frac{\partial P}{\partial t}$
+\item $\displaystyle \rho(P) = \frac{\partial P}{\partial r}$
+\end{enumerate}
+
+\vspace{1em}
+
+by taking derivatives of (\ref{eqn:bsp}). Verify that your answers are correct using put-call parity.
+
+\vspace{2em}
+
+You can find expressions for \textit{The Greeks} on pages 92 and 93 of the Stefanica text.  Verify that your answer matches the expression for the put option and that put-call parity gives the expression for the call option.  And as always, verify your calculations with Mathematica.
+
+
+
+\newpage
+\textbf{Example}
+
+Compute the vega of a European put option.
+\begin{align*}
+\mbox{vega}(P) = \frac{\partial P}{\partial \sigma} &= \frac{\partial}{\partial \sigma} \big[ K e^{-r(T - t)} \Phi(-d_{-}) - Se^{-q(T - t)} \Phi(-d_{+}) \big] \\
+&= K e^{-r(T - t)} \phi(-d_{-}) \frac{\partial}{\partial \sigma}(-d_{-}) - Se^{-q(T - t)} \phi(-d_{+}) \frac{\partial}{\partial \sigma}(-d_{+}) \\
+&= K e^{-r(T - t)} \phi(d_{-}) \frac{\partial}{\partial \sigma}(-d_{-}) - Se^{-q(T - t)} \phi(d_{+}) \frac{\partial}{\partial \sigma}(-d_{+}) \\
+\end{align*}
+
+Lemma 3.15 states that $\; K e^{-r(T - t)} \phi(d_{-}) = S e^{-q(T - t)} \phi(d_{+})$, thus
+
+\begin{align*}
+\mbox{vega}(P) = \frac{\partial P}{\partial \sigma} &= S e^{-q(T - t)} \phi(d_{+}) \frac{\partial}{\partial \sigma}(-d_{-}) - S e^{-q(T - t)} \phi(d_{+}) \frac{\partial}{\partial \sigma}(-d_{+}) \\
+&= S e^{-q(T - t)} \phi(d_{+}) \left[ \frac{\partial}{\partial \sigma}(-d_{-}) -  \frac{\partial}{\partial \sigma}(-d_{+}) \right] \\
+&= S e^{-q(T - t)} \phi(d_{+}) \left[ \frac{\partial}{\partial \sigma}(d_{+}) -  \frac{\partial}{\partial \sigma}(d_{-}) \right] \\
+&= S e^{-q(T - t)} \phi(d_{+}) \; \frac{\partial}{\partial \sigma} \bigg[ d_{+} -  d_{-} \bigg] \\
+\end{align*}
+
+But $\; d_{-} = d_{+} - \sigma \sqrt{T - t}$ $\implies$ $d_{+} - d_{-} = \sigma \sqrt{T - t}$, thus
+
+\begin{align*}
+\mbox{vega}(P) = \frac{\partial P}{\partial \sigma} &= S e^{-q(T - t)} \phi(d_{+}) \; \frac{\partial}{\partial \sigma} \bigg[ \sigma \sqrt{T - t} \bigg] \\
+\mbox{vega}(P) = \frac{\partial P}{\partial \sigma} &= S e^{-q(T - t)} \phi(d_{+}) \; \sqrt{T - t}
+\end{align*}
+
+\vspace{2em}
+
+Check the result using put-call parity:
+\begin{align*}
+P &= C - Se^{-q(T - t)} + Ke^{-r(T - t)} \\
+\mbox{vega}(P) = \frac{\partial P}{\partial \sigma} &= \frac{\partial}{\partial \sigma} \big[ C - Se^{-q(T - t)} + Ke^{-r(T - t)} \big] \\
+&= \frac{\partial C}{\partial \sigma}
+\end{align*}
+
+The vega of a European put option is the same as the vega for a European call option.
+
+
+
+
+\end{enumerate}
+
+\end{document}

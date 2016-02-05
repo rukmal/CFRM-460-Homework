@@ -1,0 +1,241 @@
+\documentclass[letterpaper,10pt]{article}
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{0}
+\allowdisplaybreaks[1]
+
+\newcommand{\doubleu}[1]{\underline{\underline{#1}}}
+\newcommand{\ddx}[1]{\frac{d}{dx} \bigg( #1 \bigg)}
+\newcommand{\partiald}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\mathematica}[1]{Mathematica: \texttt{#1}}
+\newcommand{\intbyparts}[7]{
+	\begin{aligned}
+		\text{Let}\   #1 &= #4      &      &\text{and}\    &   #2 &= #6 \\
+		\Rightarrow \frac{d#1}{d#3} &= #5 \   &  &   &  \Rightarrow \frac{d#2}{d#3} &= #7
+	\end{aligned}
+	\\ \text{We know} \  \int #1 \, d#2 = #1#2 - \int #2 \, d#1 \\
+	= {#4 \cdot #6} - \int {#6 \cdot #5} \, d#3
+}
+
+\begin{document}
+
+	\noindent {\bf Rukmal Weerawarana (1337197)} \newline
+	\noindent {\bf CFRM 460} \newline
+	\noindent {\bf Homework 3 Solutions} \newline
+	\noindent {\bf 1/29/16}
+	\newline \hrule
+
+	The Black-Scholes price for an European Put option is defined as:
+	\[
+		P(S, t, K, T, r, q, \sigma) = Ke^{-r(T - t)} \Phi(-d_{-}) - Se^{-q(T - t)} \Phi(-d_{+})
+	\]
+	Where
+	\[
+		d_{+} = \frac{\log \left(\frac{S}{K}\right) + \left(r-q+\frac{\sigma^2}{2}\right) \big(T-t\big)}{\sigma\sqrt{T-t}}
+	\]
+	\[
+		d_{-} = d_{+} - \sigma\sqrt{T-t} = \frac{\log \left(\frac{S}{K}\right) + \left(r-q-\frac{\sigma^2}{2}\right) \big(T-t\big)}{\sigma\sqrt{T-t}}
+	\]
+	\[
+		\Phi(x) = \int_{-\infty}^{x} \phi(u) \, du
+	\]
+	\[
+		\phi(u) = \frac{1}{\sqrt{2\pi}}e^{-u^2/2}
+	\]
+
+	The Put-Call parity of a European call option and European put option is defined as:
+	\[
+		P = C - Se^{-q(T-t)} + Ke^{-r(T-t)}
+	\]
+
+	\hrule
+
+	\section{Question 1}
+		\subsection{Part (a)}
+			\begin{gather*}
+				\Delta (P) = \partiald{P}{S} \\
+				\Rightarrow \partiald{P}{S} = \partiald{}{S} \left[Ke^{-r(T-t)}\Phi(-d_{-}) - Se^{-q(T-t)}\Phi(-d_{+})\right] = Ke^{-r(T-t)}\partiald{}{S}\left[\Phi(-d_{-})\right] - e^{-q(T-t)}\partiald{}{S}\left[S\Phi(-d_{+})\right] \\
+				\text{By applying the product rule to the 2nd term, we have:} \\
+				= Ke^{-r(T-t)}\partiald{}{S}\left[\Phi(-d_{-})\right] - e^{-q(T-t)}\left[\Phi(-d_{+}) + S\partiald{}{S}\left[\Phi(-d_{+}) \right] \right] \\
+				\\
+				\text{Consider } \partiald{}{S} \left[\Phi (-d_{\pm})\right] \text{:} \\
+				\text{Applying the chain rule: } \partiald{}{S} \left[\Phi (-d_{\pm})\right] = \partiald{}{(-d_{\pm})}\left[\Phi(-d_{\pm}) \right] \cdot \partiald{}{S}\left[ -d_{\pm}\right] \\
+				\text{As per the fundamental theorum of calculus (FTC): } \partiald{}{(-d_{\pm})} \left[\Phi(-d_{\pm}) \right] = \phi(-d_{\pm}) \\
+				\Rightarrow \partiald{}{S} \left[\Phi (-d_{\pm})\right] = \phi(-d_{\pm}) \cdot \partiald{}{S} \left[ -d_{\pm} \right] \\
+				\text{We know } -d_{\pm} = - \frac{\log \left(\frac{S}{K}\right) + \left(r-q \pm \frac{\sigma^2}{2}\right) \big(T-t\big)}{\sigma\sqrt{T-t}} \\
+				\Rightarrow \phi(-d_{\pm}) \cdot \partiald{}{S} \left[ -d_{\pm} \right] = \phi(-d_{\pm}) \cdot \partiald{}{S} \left[- \frac{\log \left(\frac{S}{K}\right) + \left(r-q \pm \frac{\sigma^2}{2}\right) \big(T-t\big)}{\sigma\sqrt{T-t}} \right] \\
+				= \phi(-d_{\pm}) \cdot \partiald{}{S} \left[- \frac{\log \left( \frac{S}{K} \right)}{\sigma \sqrt{T-t}} - \frac{\left( r-q \pm \frac{\sigma^2}{2} \right)\left(T-t\right)}{\sigma \sqrt{T-t}} \right] = \phi(-d_{\pm}) \cdot \frac{-1}{\sigma \sqrt{T-t}} \cdot \frac{K}{S} \cdot \frac{1}{K} = \phi(-d_{\pm}) \cdot \frac{-1}{S\sigma\sqrt{T-t}} \\
+				\partiald{}{S}\left[ \Phi(-d_\pm) \right] = \frac{-\phi(-d_\pm)}{S\sigma\sqrt{T-t}} \\
+				\\
+				\text{Substituting } \partiald{}{S} \left[\Phi(-d_{\pm}) \right] = \frac{- \phi(-d_{\pm})}{S\sigma\sqrt{T-t}} \text{ in } \Delta(P) \text{:} \\
+				\Rightarrow \Delta(P) = Ke^{-r(T-t)}\partiald{}{S}\left[\Phi(-d_{-})\right] - e^{-q(T-t)}\left[\Phi(-d_{+}) + S\partiald{}{S}\left[\Phi(-d_{+}) \right] \right] \\
+				\Delta(P) = \frac{e^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}} - \frac{K e^{-r(T-t)} \phi(-d_{-})}{S\sigma\sqrt{T-t}} - e^{-q(T-t)} \Phi(-d_{+}) \\
+				\\
+				\text{Let \textit{Conjecture 1: }} \frac{e^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}} = \frac{Ke^{-r(T-t)}\phi(-d_{-})}{S \sigma \sqrt{T-t}} \\
+				\text{We know } \phi(-d_{-}) = \frac{1}{\sqrt{2\pi}} \exp{\left(\frac{-(-d_{-})^2}{2}\right)} \\
+				\text{We also know } d_{-} = d_{+} - \sigma \sqrt{T-t} \\
+				\Rightarrow \phi(-d_{-}) = \frac{1}{\sqrt{2\pi}} \exp{\left(- \frac{(d_+ - \sigma\sqrt{T-t})^2}{2} \right)} = \frac{1}{\sqrt{2\pi}}\exp{\left( - \frac{d_+^2 -2d_+\sigma\sqrt{T-t} + \sigma^2(T-t)}{2}  \right)} \\
+				= \left[\frac{1}{\sqrt{2\pi}} \exp{\left( \frac{(-d_+)^2}{2} \right)}\right] \exp{\left( \frac{-\sigma^2 (T-t)}{2} \right)} \exp{\left( d_+ \sigma \sqrt{T-t} \right)} = \phi(-d_+) \exp{\left( \frac{-\sigma^2 (T-t)}{2} \right)} \exp{\left( d_+ \sigma \sqrt{T-t} \right)} \\
+				\text{But, we know } d_+ = \frac{\log \left(\frac{S}{K} \right) + \left(r - q + \frac{\sigma^2}{2} \right) (T-t)}{\sigma \sqrt{T-t}} \\
+				\Rightarrow \phi(-d_+) \exp{\left( \frac{-\sigma^2 (T-t)}{2} \right)} \exp{\left( d_+ \sigma \sqrt{T-t} \right)} = \phi(-d_+) \exp{\left( \frac{-\sigma^2 (T-t)}{2} \right)} \exp{\left( \log \left(\frac{S}{K} \right) + \left(r - q + \frac{\sigma^2}{2} \right) (T-t) \right)} \\
+				= \phi(-d_+) \cdot \exp{\left( \frac{-\sigma^2(T-t)}{2} \right)} \cdot \frac{S}{K} \cdot \exp{ \left( (r-q)(T-t) \right)} \cdot \exp{\left( \frac{\sigma^2(T-t)}{2} \right)} = \frac{S\phi(-d_+)e^{r(T-t)} e^{-q(T-t)}}{K} \\
+				\text{Substituting } \phi(-d_-) = \frac{S\phi(-d_+)e^{r(T-t)} e^{-q(T-t)}}{K} \text{ in \textit{Conjecture 1}:} \\
+				\Rightarrow \text{RHS} = \frac{Ke^{-r(T-t)}\phi(-d_{-})}{S \sigma \sqrt{T-t}} = \frac{Ke^{-r(T-t)}}{S \sigma \sqrt{T-t}} \cdot \frac{S\phi(-d_+) e^{r(T-t)} e^{-q(T-t)}}{K} = \frac{e^{-q(T-t)} \phi(-d_+)}{\sigma \sqrt{T-t}} = \text{LHS} \\
+				\therefore \frac{e^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}} = \frac{Ke^{-r(T-t)}\phi(-d_{-})}{S \sigma \sqrt{T-t}} \\
+				\\
+				\text{Applying \textit{Conjecture 1}} \Rightarrow \Delta(P) = \frac{e^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}} - \frac{K e^{-r(T-t)} \phi(-d_{-})}{S\sigma\sqrt{T-t}} - e^{-q(T-t)} \Phi(-d_{+}) \\
+				\\
+				\therefore \Delta(P) = \partiald{P}{S} = \doubleu{-e^{-q(T-t)} \Phi(-d_+)}
+				\\
+			\end{gather*}
+			Verifying answer using Put-Call parity and $\Delta(C)$:
+			\begin{gather*}
+				\text{We know } \Delta(C) = \partiald{C}{S} = e^{-q(T-t)} \Phi(d_+) \\
+				\text{Put-Call parity states } P = C - Se^{-q(T-t)} + Ke^{-r(T-t)} \\
+				\\
+				\partiald{P}{S} = \partiald{}{S}\left[ C - Se^{-q(T-t)} + Ke^{-r(T-t)} \right] = \partiald{C}{S} + \partiald{}{S}\left[Ke^{-r(T-t)} - Se^{-q(T-t)} \right] = \partiald{C}{S} - e^{-q(T-t)} \\
+				\\
+				\Rightarrow \text{Let } \partiald{P}{S} + e^{-q(T-t)} = \partiald{C}{S} \\
+				\text{LHS} = \partiald{P}{S} + e^{-q(T-t)} = \partiald{P}{S} = -e^{-q(T-t)} \Phi(-d_+) + e^{-q(T-t)} = e^{-q(T-t)} (1-\Phi(-d_+)) \\
+				\text{But, } 1-\Phi(-x) = \Phi(x) \\
+				\Rightarrow e^{-q(T-t)} (1-\Phi(-d_+)) = e^{-q(T-t)} \Phi(d_+) = \partiald{C}{S} = \text{RHS} \\
+				\\
+				\boxed{\therefore \Delta(P) = -e^{-q(T-t)} \Phi(-d_+)}
+				\\
+			\end{gather*}
+
+		\hrule
+
+		\subsection{Part (b)}
+			\begin{gather*}
+				\Gamma(P) = \partiald{^2P}{S^2} = \partiald{\Delta(P)}{S} \\
+				\Rightarrow \partiald{\Delta(P}{S} = \partiald{}{S}\left[ -e^{-q(T-t)} \Phi(-d_+) \right] = -e^{-q(T-t)} \partiald{}{S}\left[ \Phi(-d_+) \right] \\
+				\text{From Part (a), we know } \partiald{}{S}\left[ \Phi(-d_\pm) \right] = \frac{-\phi (-d_\pm)}{S \sigma\sqrt{T-t}} \\
+				\\
+				\therefore \Gamma(P) = -e^{-q(T-t)} \partiald{}{S}\left[ \Phi(-d_+) \right] = \doubleu{\frac{e^{-q(T-t)} \phi(-d_+)}{S\sigma \sqrt{T-t}}}
+				\\
+			\end{gather*}
+			Verifying answer using Put-Call parity and $\Gamma(C)$:
+			\begin{gather*}
+				\text{We know } \Gamma(C) = \partiald{^2C}{S^2} = \frac{e^{-q(T-t)} \phi(d_+)}{S\sigma\sqrt{T-t}} \\
+				\text{Put-Call parity states } P = C - Se^{-q(T-t)} + Ke^{-r(T-t)} \\
+				\\
+				\partiald{^2P}{S^2} = \partiald{^2}{S^2}\left[ C - Se^{-q(T-t)} + Ke^{-r(T-t)} \right] = \partiald{^2C}{S^2} + \partiald{^2}{S^2}\left[Ke^{-r(T-t)} - Se^{-q(T-t)} \right] = \partiald{^2C}{S^2} - \partiald{}{S}\left[e^{-q(T-t)}\right] \\
+				\\
+				\Rightarrow \text{Let } \partiald{^2P}{S^2} = \partiald{^2C}{S^2} \\
+				\text{LHS} = \partiald{^2P}{S^2} = \frac{e^{-q(T-t)} \phi(-d_+)}{S\sigma \sqrt{T-t}} = \frac{e^{-q(T-t)}}{S\sigma \sqrt{T-t}} \frac{1}{\sqrt{2\pi}}e^{-(-d_+^2)/2} = \frac{e^{-q(T-t)}}{S\sigma \sqrt{T-t}} \frac{1}{\sqrt{2\pi}}e^{-d_+^2/2} \\
+				\text{But, } \phi(d_+) = \frac{1}{\sqrt{2\pi}} e^{-d_+^2/2} \\
+				\Rightarrow \frac{e^{-q(T-t)}}{S\sigma \sqrt{T-t}} \frac{1}{\sqrt{2\pi}}e^{-d_+^2/2} = \frac{e^{-q(T-t)} \phi(d_+)}{S\sigma \sqrt{T-t}} = \partiald{^2C}{S^2} = \text{RHS} \\
+				\\
+				\boxed{\therefore \Gamma(P) = \partiald{^2P}{S^2} = \frac{e^{-q(T-t)} \phi(-d_+)}{S\sigma\sqrt{T-t}}}
+				\\
+			\end{gather*}
+
+		\hrule
+
+		\subsection{Part (c)}
+			\begin{gather*}
+				\Theta(P) = \partiald{P}{t} \\
+				\Rightarrow \partiald{P}{t} = \partiald{}{t}\left[ Ke^{-r(T-t)}\Phi(-d_{-}) - Se^{-q(T-t)}\Phi(-d_{+}) \right] = K \partiald{}{t} \left[ e^{-r(T-t)} \Phi(-d_-) \right] - S \partiald{}{t}\left[e^{-q(T-t)} \Phi(-d_+) \right] \\
+				\text{Applying the product rule:} \\
+				= K\Phi(-d_-) \partiald{}{t}\left[ e^{-r(T-t)} \right] + K e^{-r(T-t)} \partiald{}{t} \left[ \Phi(-d_-) \right] - S \Phi(-d_+)\partiald{}{t}\left[ e^{-q(T-t)} \right] - Se^{-q(T-t)} \partiald{}{t} \left[ \Phi(-d_+) \right] \\
+				= rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + Ke^{-r(T-t)}\partiald{}{t}\left[\Phi(-d_-)\right] - Se^{-q(T-t)}\partiald{}{t}\left[ \Phi(-d_+) \right] \\
+				\\
+				\text{Consider } \partiald{}{t}\left[ \Phi(-d_\pm) \right] \\
+				\text{Applying the chain rule: } \partiald{}{t}\left[ \Phi(-d_\pm) \right] = \partiald{}{(-d_\pm)}\left[ \Phi(-d_\pm) \right] \cdot \partiald{}{t}\left[ -d_\pm \right] \\
+				\text{As per the fundamental theorum of calculus (FTC): } \partiald{}{(-d_{\pm})} \left[\Phi(-d_{\pm}) \right] = \phi(-d_{\pm}) \\
+				\therefore \partiald{}{t}\left[ \Phi(-d_\pm) \right] = \phi(-d_\pm) \partiald{}{t} \left[ -d_\pm \right] \\
+				\\
+				\text{Substiting } \partiald{}{t}\left[ \Phi(-d_\pm) \right] = \phi(-d_\pm) \partiald{}{t} \left[ -d_\pm \right] \text{ in } \Theta(P) \text{:} \\
+				= rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{t}\left[-d_-\right] - Se^{-q(T-t)}\phi(-d_+)\partiald{}{t}\left[ -d_+ \right] \\
+				\\
+				\text{Recall \textit{Conjecture 1:} } \frac{e^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}} = \frac{Ke^{-r(T-t)}\phi(-d_{-})}{S \sigma \sqrt{T-t}} \\
+				\Rightarrow \frac{Se^{-q(T-t)} \phi(-d_{+})}{\sigma \sqrt{T-t}}=\frac{Ke^{-r(T-t)}\phi(-d_{-})}{\sigma\sqrt{T-t}} \\
+				\therefore \text{Let \textit{Conjecture 2:} } Se^{-q(T-t)} \phi(-d_{+}) = Ke^{-r(T-t)}\phi(-d_{-}) \\
+				\\
+				\text{Applying \textit{Conjecture 2}:} \\
+				\Rightarrow \Theta(P) = rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + Ke^{-r(T-t)}\phi(-d_-)\left[ \partiald{}{t}\left[-d_-\right] - \partiald{}{t}\left[ -d_+ \right] \right] \\
+				= rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{t}\left[ (-d_-) - (-d_+) \right] \\
+				\\
+				\text{We know } d_- = d_+ - \sigma \sqrt{T-t} \\
+				\Rightarrow (-d_-) - (-d_+) = d_+ - d_- = d_+ - (d_+ - \sigma \sqrt{T-t}) = \sigma\sqrt{T-t} \\
+				\\
+				\Rightarrow \Theta(P) = rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{t}\left[ \sigma \sqrt{T-t} \right] \\
+				\\
+				\therefore \Theta(P) = \partiald{P}{t} = \doubleu{- \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} + rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+)}
+				\\
+			\end{gather*}
+			Verifying answer using Put-Call parity and $\Theta(C)$:
+			\begin{gather*}
+				\text{We know } \Theta(C) = \partiald{C}{t} = - \frac{\sigma K e^{-r(T-t)}\phi(d_-)}{2\sqrt{T-t}} + qSe^{-q(T-t)}\Phi(d_+) - rKe^{-r(T-t)}\Phi(d_-) \\
+				\text{Put-Call parity states } P = C - Se^{-q(T-t)} + Ke^{-r(T-t)} \\
+				\\
+				\partiald{P}{t} = \partiald{}{t} \left[ C - Se^{-q(T-t)} + Ke^{-r(T-t)} \right] = \partiald{C}{t} + \partiald{}{t} \left[ Ke^{-r(T-t)} - Se^{-q(T-t)} \right] = \partiald{C}{t} + rKe^{-r(T-t)} - qSe^{-q(T-t)} \\
+				\\
+				\Rightarrow \text{Let } \partiald{P}{t} + qSe^{-q(T-t)} - rKe^{-r(T-t)} = \partiald{C}{t} \\
+				\text{LHS} = \partiald{P}{t} + qSe^{-q(T-t)} - rKe^{-r(T-t)} \\
+				= - \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} + rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+) + qSe^{-q(T-t)} - rKe^{-r(T-t)} \\
+				= - \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} - rKe^{-r(T-t)}(1 - \Phi(-d_-)) + qSe^{-q(T-t)}(1-\Phi(-d_+)) \\
+				\text{But, } 1-\Phi(-x) = \Phi(x) \\
+				\Rightarrow - \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} - rKe^{-r(T-t)}(1 - \Phi(-d_-)) + qSe^{-q(T-t)}(1-\Phi(-d_+)) \\
+				= - \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} + qSe^{-q(T-t)}\Phi(d_+) - rKe^{-r(T-t)}\Phi(d_-) \\
+				= - \frac{\sigma K e^{-r(T-t)}}{2\sqrt{T-t}}\frac{1}{\sqrt{2\pi}}e^{-(-d_-)^2/2} + qSe^{-q(T-t)}\Phi(d_+) - rKe^{-r(T-t)}\Phi(d_-) \\
+				= - \frac{\sigma K e^{-r(T-t)}}{2\sqrt{T-t}}\frac{1}{\sqrt{2\pi}}e^{-(d_-)^2/2} + qSe^{-q(T-t)}\Phi(d_+) - rKe^{-r(T-t)}\Phi(d_-) \\
+				= - \frac{\sigma K e^{-r(T-t)}\phi(d_-)}{2\sqrt{T-t}}+ qSe^{-q(T-t)}\Phi(d_+) - rKe^{-r(T-t)}\Phi(d_-) = \partiald{C}{t} = \text{RHS} \\
+				\\
+				\boxed{\therefore \Theta(P) = - \frac{\sigma K e^{-r(T-t)} \phi(-d_-)}{2\sqrt{T-t}} + rKe^{-r(T-t)} \Phi(-d_-) - qSe^{-q(T-t)}\Phi(-d_+)}
+				\\
+			\end{gather*}
+
+		\hrule
+
+		\subsection{Part (d)}
+			\begin{gather*}
+				\rho(P) = \partiald{P}{r} \\
+				\Rightarrow \partiald{P}{r} = \partiald{}{r} \left[ Ke^{-r(T - t)} \Phi(-d_{-}) - Se^{-q(T - t)} \Phi(-d_{+}) \right] = K \partiald{}{r} \left[ e^{-r(T-t)} \Phi(-d_-) \right] - Se^{-q(T-t)} \partiald{}{r} \left[ \Phi(-d_+) \right] \\
+				\text{Applying the product rule:} \\
+				\Rightarrow K \partiald{}{r} \left[ e^{-r(T-t)} \Phi(-d_-) \right] - Se^{-q(T-t)} \partiald{}{r} \left[ \Phi(-d_+) \right] \\
+				= K \Phi(-d_-) \partiald{}{r} \left[ e^{-r(T-t)} \right] + K e^{-r(T-t)} \partiald{}{r} \left[ \Phi(-d_-) \right] - Se^{-q(T-t)} \partiald{}{r} \left[ \Phi(-d_+) \right] \\
+				= - K (T-t) e^{-r(T-t)} \Phi(-d_-) + K e^{-r(T-t)} \partiald{}{r} \left[ \Phi(-d_-) \right] - Se^{-q(T-t)} \partiald{}{r} \left[ \Phi(-d_+) \right] \\
+				\\
+				\text{Consider } \partiald{}{r} \left[ \Phi(-d_\pm) \right] \text{. Applying the chain rule: } \partiald{}{r} \left[ \Phi(-d_\pm) \right] = \partiald{}{(-d_\pm)}\left[ \Phi(-d_\pm) \right] \cdot \partiald{}{r} \left[ -d_\pm \right] \\
+				\text{As per the fundamental theorum of calculus (FTC): } \partiald{}{(-d_{\pm})} \left[\Phi(-d_{\pm}) \right] = \phi(-d_{\pm}) \\
+				\therefore \partiald{}{r}\left[ \Phi(-d_\pm) \right] = \phi(-d_\pm) \partiald{}{r} \left[ -d_\pm \right] \\
+				\\
+				\text{Substituting } \partiald{}{r}\left[ \Phi(-d_\pm) \right] = \phi(-d_\pm) \partiald{}{r} \left[ -d_\pm \right] \text{ in } \rho(P) \text{:} \\
+				= - K (T-t) e^{-r(T-t)} \Phi(-d_-) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{r}\left[-d_-\right] - Se^{-q(T-t)}\phi(-d_+)\partiald{}{r}\left[ -d_+ \right] \\
+				\\
+				\text{Recall \textit{Conjecture 2:} } Se^{-q(T-t)} \phi(-d_{+}) = Ke^{-r(T-t)}\phi(-d_{-}) \text{. Applying \textit{Conjecture 2} to } \rho(P) \text{:} \\
+				\Rightarrow \rho(P) = - K (T-t) e^{-r(T-t)} \Phi(-d_-) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{r}\left[ (-d_-) - (-d_+) \right] \\
+				\\
+				\text{We know } d_- = d_+ - \sigma \sqrt{T-t} \\
+				\Rightarrow (-d_-) - (-d_+) = d_+ - d_- = d_+ - (d_+ - \sigma \sqrt{T-t}) = \sigma\sqrt{T-t} \\
+				\\
+				\Rightarrow \rho(P) = - K (T-t) e^{-r(T-t)} \Phi(-d_-) + Ke^{-r(T-t)}\phi(-d_-)\partiald{}{r}\left[ \sigma\sqrt{T-t} \right] \\
+				\\
+				\therefore \rho(P) = \partiald{P}{r} = \doubleu{- K (T-t) e^{-r(T-t)} \Phi(-d_-)}
+				\\
+			\end{gather*}
+			Verifying answer using Put-Call parity and $\rho(C)$:
+			\begin{gather*}
+				\text{We know } \rho(C) = K(T-t) e^{-r(T-t)} \Phi(d_-) \\
+				\text{Put-Call parity states } P = C - Se^{-q(T-t)} + Ke^{-r(T-t)} \\
+				\\
+				\partiald{P}{r} = \partiald{}{r} \left[ C - Se^{-q(T-t)} + Ke^{-r(T-t)} \right] = \partiald{C}{r} + \partiald{}{r} \left[ Ke^{-r(T-t)} - Se^{-q(T-t)} \right] = \partiald{C}{r} - K(T-t)e^{-r(T-t)} \\
+				\\
+				\Rightarrow \text{Let } \partiald{P}{r} + K(T-t)e^{-r(T-t)} = \partiald{C}{r} \\
+				\text{LHS} = \partiald{P}{r} + K(T-t)e^{-r(T-t)} = - K (T-t) e^{-r(T-t)} \Phi(-d_-) + K(T-t)e^{-r(T-t)} \\
+				= K(T-t)e^{-r(T-t)}(1-\Phi(-d_-)) \\
+				\text{But, } 1-\Phi(-x) = \Phi(x) \\
+				\Rightarrow K(T-t)e^{-r(T-t)}(1-\Phi(-d_-)) = K(T-t)e^{-r(T-t)} \Phi(d_-) = \partiald{C}{r} = \text{RHS} \\
+				\\
+				\boxed{\therefore \rho(P) = - K (T-t) e^{-r(T-t)} \Phi(-d_-)}
+			\end{gather*}
+\end{document}

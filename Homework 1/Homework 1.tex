@@ -1,0 +1,88 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\newcommand{\transpose}{^{\mbox{\tiny T}}}
+
+
+\begin{document}
+\thispagestyle{empty}
+
+\hrule \vspace{0.5em}
+\noindent {\bf CFRM 460: Mathematical Methods for Quantitative Finance} \hfill Homework 1 \newline \hrule
+
+\vspace{1em}
+\textbf{Instructions:} Solve each of the exercises both by hand (must show all work for credit) and using Mathematica to verify that you get the same answers. Be sure to include the Mathematica code used to verify the solution. For example,
+\begin{center}
+$\displaystyle \lim_{x \rightarrow 0} \frac{\sin(x)}{x}$ \hspace{1em} would be \hspace{1em} \texttt{Limit[Sin[x] / x, x -> 0]}.
+\end{center}
+
+\vspace{1em}
+
+\begin{enumerate}
+\item Compute the following limits.
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item $\displaystyle \lim_{h \rightarrow 0} \; \frac{4 (x + h - 3)^{2} - 4 (x - 3)^{2}}{h}$
+
+\vspace{0.5em}
+
+\item $\displaystyle \lim_{x \rightarrow \infty} \; \frac{1}{\sqrt{4x^2 - 2x - 10} + 2x}$
+\end{enumerate}
+
+\vspace{1em}
+
+
+\item Compute the derivatives of the following functions.
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item $\displaystyle f(x) = \frac{1}{1 - x}$ 
+
+\vspace{0.5em}
+
+\item $\displaystyle f(x) = \sum_{k = 1}^{7} k e^{-a_{k} x^{3}}$ \hspace{1em} (the $\{a_{k}\}$ are constants)
+
+\vspace{0.5em}
+
+\item $\displaystyle f(x) = \frac{\log\left(\frac{x}{K}\right) + \left(r - q + \frac{\sigma^{2}}{2} \right) \big( T - t \big)}{\sigma \sqrt{T - t}}$ \hspace{1em} ($K > 0$, $r$, $q$, $\sigma > 0$, and $T > t$ constant)
+
+\vspace{0.5em}
+
+\item $\displaystyle f(x) = \frac{\log\left(\frac{S}{K}\right) + \left(r - q + \frac{x^{2}}{2} \right) \big( T - t \big)}{x \sqrt{T - t}}$ \hspace{1em} ($S > 0$, $K > 0$, $r$, $q$, and $T > t$ constant)
+
+\vspace{0.5em}
+
+\item $\displaystyle f(x) = \frac{\log\left(\frac{S}{K}\right) + \left(x - q + \frac{\sigma^{2}}{2} \right) \big( T - t \big)}{\sigma \sqrt{T - t}}$ ($S > 0$, $K > 0$, $q$, $\sigma > 0$, and $T > t$ constant)
+
+\end{enumerate}
+
+\vspace{1em}
+
+
+\item Use l'H\^{o}pital's rule to compute the following limits.
+
+\vspace{0.5em}
+
+\begin{enumerate}[(a)]
+\item $\displaystyle \lim_{x \rightarrow 0} \; \frac{\sin(x)}{x}$
+
+\vspace{0.5em}
+
+\item $\displaystyle \lim_{x \rightarrow \infty} \; \frac{\log(x^{3})}{x}$
+\end{enumerate}
+
+\end{enumerate}
+
+
+\vfill \hrule \vspace{2mm} \centerline {\tt \tiny http://computational-finance.uw.edu}
+\end{document}

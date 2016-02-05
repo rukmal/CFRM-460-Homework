@@ -1,0 +1,32 @@
+Question 1
+
+Part (a)
+Integrate[x^2 Log[x], x]
+
+Part (b)
+Integrate[x^2 Exp[x], x]
+
+Part (c)
+Integrate[Log[x]^2, x]
+
+
+Question 2
+
+Part (a)
+Integrate[x^2 Log[x], {x, 4, 7}]
+
+Part (b)
+Integrate[1/(1 + x)^2, {x, 0, Infinity}]
+
+
+Question 3
+SetAttributes[{T, \[Sigma], K, r}, Constant]; b[x_] := (1/(\[Sigma] \[Sqrt](T)))[Log[x/K] + T (r + (\[Sigma]^2)/2)]; f[y_] := 1/(2 Pi)^(1/2) Exp[-y^2/2]; g[x_] := Integrate[f[y], {y, 0, b[x]}]; D[g[x], x]
+
+
+Question 4
+
+Part (a)
+\[Phi][u_] := (1/Sqrt[2 Pi]) Exp[- u^2 /2]; \[Phi][-x] == \[Phi][x]
+
+Part (b)
+\[Phi][u_] := (1/Sqrt[2 Pi]) Exp[-u^2/2]; \[CapitalPhi][x_] := Integrate[\[Phi][u], {u, -Infinity, x}]; \[CapitalPhi][-x] == 1 - \[CapitalPhi][x]
