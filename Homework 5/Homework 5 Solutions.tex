@@ -1,0 +1,186 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{relsize}
+\usepackage{tikz}
+
+\usepgfplotslibrary{fillbetween}
+\setcounter{secnumdepth}{0}
+\allowdisplaybreaks[1]
+
+\newcommand{\doubleu}[1]{\underline{\underline{#1}}}
+\newcommand{\ddx}[1]{\frac{d}{dx} \bigg( #1 \bigg)}
+\newcommand{\partiald}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\matrixpartiald}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\mathematica}[1]{Mathematica: \texttt{#1}}
+\newcommand{\intbyparts}[7]{
+	\begin{aligned}
+		\text{Let}\   #1 &= #4      &      &\text{and}\    &   #2 &= #6 \\
+		\Rightarrow \frac{d#1}{d#3} &= #5 \   &  &   &  \Rightarrow \frac{d#2}{d#3} &= #7
+	\end{aligned}
+	\\ \text{We know} \  \int #1 \, d#2 = #1#2 - \int #2 \, d#1 \\
+	= {#4 \cdot #6} - \int {#6 \cdot #5} \, d#3
+}
+\newcommand{\threematrix}[9]{
+	\begin{bmatrix}
+		#1 & #4 & #7 \\
+		#2 & #5 & #8 \\
+		#3 & #6 & #9
+	\end{bmatrix}
+}
+\newcommand{\threevector}[3]{
+	\begin{bmatrix}
+		#1 \\ #2 \\ #3
+	\end{bmatrix}
+}
+
+
+\begin{document}
+	\noindent {\bf Rukmal Weerawarana (1337197)} \newline
+	\noindent {\bf CFRM 460} \newline
+	\noindent {\bf Homework 5 Solutions} \newline
+	\noindent {\bf 2/19/16}
+	\newline \hrule
+
+	\section{Question 1}
+		\begin{gather*}
+			\text{Let } A = \threematrix{1}{1}{-2}{1}{4}{1}{0}{1}{1} \\
+		\end{gather*}
+
+		\subsection{Part (a)}
+			\begin{gather*}
+				\text{Let } L_1 = \threematrix{1}{-1}{0}{0}{1}{0}{0}{0}{1} \\
+				\Rightarrow L_1A = \threematrix{1}{-1}{0}{0}{1}{0}{0}{0}{1} \threematrix{1}{1}{-2}{1}{4}{1}{0}{1}{1} = \threematrix {1}{0}{-2}{1}{3}{1}{0}{1}{1} \\
+				\text{Let } L_2 = \threematrix{1}{0}{2}{0}{1}{0}{0}{0}{1} \\
+				\Rightarrow L_2 L_1 A = \threematrix{1}{0}{2}{0}{1}{0}{0}{0}{1} \threematrix {1}{0}{-2}{1}{3}{1}{0}{1}{1} = \threematrix{1}{0}{0}{1}{3}{3}{0}{1}{1} \\
+				\text{Let } L_3 = \threematrix{1}{0}{0}{0}{1}{-1}{0}{0}{1} \\
+				\Rightarrow L_3 L_2 L_1 A = \threematrix{1}{0}{0}{0}{1}{-1}{0}{0}{1} \threematrix{1}{0}{0}{1}{3}{3}{0}{1}{1} = \threematrix{1}{0}{0}{1}{3}{0}{0}{1}{0} \\
+				\text{As the reduced matrix is in Row Echelon form, the number of pivots of A is equivalent} \\ \text{to the number of pivots in the reduced Upper-Right triangular form seen above.} \\
+				\Rightarrow \text{Number of pivots in } A = 2
+			\end{gather*}
+
+		\subsection{Part (b), (c), (d) \& (e)}
+			As the square matrix $A$ does not have pivots equal to its dimensions (3), it cannot have an inverse (i.e. matrix A is singular). Thus, the equation $Ax = b$ cannot have any solutions, regardless of the value of $b$.
+
+
+	\section{Question 2}
+		\begin{gather*}
+			AB = I \\
+			CA = I
+		\end{gather*}
+		\subsection{Part (a)}
+			\begin{gather*}
+				A: n \times  n \\
+				B: n \times n \\
+				C: n \times n
+			\end{gather*}
+
+		\subsection{Part (b)}
+			\begin{gather*}
+				\Rightarrow AB = CA \\
+				\text{Multiplying both sides by } B \text{:} \\
+				ABB = CAB \Rightarrow (AB)B = C(AB) \\
+				\text{We know } AB = I \Rightarrow IB = CI \\
+				\text{But, } IX = X \text{ and } XI = X \\
+				\therefore B = C
+			\end{gather*}
+
+		\subsection{Part (c)}
+			\begin{gather*}
+				\text{We know } AB = I \text{, } CA = I \text{ and } B = C\\
+				\text{Using the property that } A^{-1}A = I \text{ and } AA^{-1} = I \text{,} \\
+				\text{we can conclude } B = C = A^{-1} \\
+				\therefore A \text{ is invertible.}
+			\end{gather*}
+
+
+	\section{Question 3}
+		\subsection{Part (a)}
+			\begin{gather*}
+				(I-A)^2 = I^2-2IA+A^2 \\
+				\text{But, we know } A^2 = A \text{ and } I^n = I \\
+				\Rightarrow I^2 -2IA + A^2 = I - 2A + A = \doubleu{I-A}
+			\end{gather*}
+
+		\subsection{Part (b)}
+			\begin{gather*}
+				(I-A)^7 = (I-A)\left[(I-A)^2\right]^3 \\
+				\text{Recall, } (I-A)^2 = I-A \\
+				\Rightarrow (I-A)[(I-A)^2]^3 = (I-A)(I-A)^3 = (I-A)^4 = [(I-A)^2]^2 \\
+				\Rightarrow [(I-A)^2]^2 = (I-A)^2 = \doubleu{I-A}
+			\end{gather*}
+
+
+	\section{Question 4}
+		\subsection{Part (a)}
+			\begin{gather*}
+				\Rightarrow a \threevector{1}{2}{3} + b \threevector{6}{4}{2} = \threevector{9}{2}{-5} \\
+				\text{Multiplying both sides by a constant $c$, we have:} \\
+				ac \threevector{1}{2}{3} + bc \threevector{6}{4}{2} = c \threevector{9}{2}{-5} \Rightarrow ac \threevector{1}{2}{3} + bc \threevector{6}{4}{2} - c \threevector{9}{2}{-5} = 0 \\
+				\text{Reversing the dot product, we have: } \threematrix{1}{2}{3}{6}{4}{2}{9}{2}{-5} \threevector{ac}{bc}{-c} = \threevector{0}{0}{0} \\
+				\text{Using Gaussian elimination to determine solutions:} \\
+				\left[
+				\begin{array}{ccc|c}
+					1 & 6 & 9 & 0 \\
+					2 & 4 & 2 & 0 \\
+					3 & 2 & -5 & 0
+				\end{array}
+				\right] \\
+				R_2 \rightarrow \frac{r_2}{2}
+				\left[
+				\begin{array}{ccc|c}
+					1 & 6 & 9 & 0 \\
+					1 & 2 & 1 & 0 \\
+					3 & 2 & -5 & 0
+				\end{array}
+				\right] \\
+				R_3 \rightarrow r_3-r_2
+				\left[
+				\begin{array}{ccc|c}
+					1 & 6 & 9 & 0 \\
+					1 & 2 & 1 & 0 \\
+					2 & 0 & -6 & 0
+				\end{array}
+				\right] \\
+				R_1 \rightarrow r_1 - 3r_2
+				\left[
+				\begin{array}{ccc|c}
+					-2 & 0 & 6 & 0 \\
+					1 & 2 & 1 & 0 \\
+					2 & 0 & -6 & 0
+				\end{array}
+				\right] \\
+				R_3 \rightarrow r_3 + r_2
+				\left[
+				\begin{array}{ccc|c}
+					-2 & 0 & 6 & 0 \\
+					1 & 2 & 1 & 0 \\
+					0 & 0 & 0 & 0
+				\end{array}
+				\right] \\
+				R_2 \rightarrow r_2 + \frac{r_1}{2}
+				\left[
+				\begin{array}{ccc|c}
+					-2 & 0 & 6 & 0 \\
+					0 & 2 & 4 & 0 \\
+					0 & 0 & 0 & 0
+				\end{array}
+				\right] \\
+				\text{Thus, as all of the coefficients are 0 as per the solution to the equation,} \\
+				\text{the linear expression of the vector cannot be done.} \\
+			\end{gather*}
+		\subsection{Part (b)}
+			\begin{gather*}
+				\text{The Gaussian elimination performed above shows that}
+				\threematrix{1}{2}{3}{6}{4}{2}{9}{2}{-5}
+				\text{has 2 pivots.}
+			\end{gather*}
+\end{document}

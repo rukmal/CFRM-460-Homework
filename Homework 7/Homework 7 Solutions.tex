@@ -1,0 +1,69 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[margin=64pt]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{relsize}
+\usepackage{tikz}
+
+\usepgfplotslibrary{fillbetween}
+\setcounter{secnumdepth}{0}
+\allowdisplaybreaks[1]
+
+\newcommand{\doubleu}[1]{\underline{\underline{#1}}}
+\newcommand{\ddx}[1]{\frac{d}{dx} \bigg( #1 \bigg)}
+\newcommand{\partiald}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\matrixpartiald}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\mathematica}[1]{Mathematica: \texttt{#1}}
+\newcommand{\intbyparts}[7]{
+	\begin{aligned}
+		\text{Let}\   #1 &= #4      &      &\text{and}\    &   #2 &= #6 \\
+		\Rightarrow \frac{d#1}{d#3} &= #5 \   &  &   &  \Rightarrow \frac{d#2}{d#3} &= #7
+	\end{aligned}
+	\\ \text{We know} \  \int #1 \, d#2 = #1#2 - \int #2 \, d#1 \\
+	= {#4 \cdot #6} - \int {#6 \cdot #5} \, d#3
+}
+\newcommand{\threematrix}[9]{
+	\begin{bmatrix}
+		#1 & #4 & #7 \\
+		#2 & #5 & #8 \\
+		#3 & #6 & #9
+	\end{bmatrix}
+}
+\newcommand{\threevector}[3]{
+	\begin{bmatrix}
+		#1 \\ #2 \\ #3
+	\end{bmatrix}
+}
+
+
+\begin{document}
+	\noindent {\bf Rukmal Weerawarana (1337197)} \newline
+	\noindent {\bf CFRM 460} \newline
+	\noindent {\bf Homework 7 Solutions} \newline
+	\noindent {\bf 3/4/16}
+	\newline \hrule
+
+	\section{Question 1}
+		\subsection{Part (a)}
+			\begin{gather*}
+				A = Q R \\
+				\text{Given that A has dimensions $m \times n$,} \\
+				\Rightarrow \text{$Q$ has dimensions $m \times m$} \\
+				\Rightarrow \text{$R$ has dimensions $m \times n$} \\
+				\text{Thus matrix $Q$ will be such that: } Q = \begin{bmatrix}
+					q_{11} & q_{12} & \cdots & q_{1m} \\
+					q_{21} & q_{22} & \cdots & q_{2m} \\
+					\vdots & \vdots & \ddots & \vdots \\
+					q_{m1} & q_{m2} & \cdots & q_{mm}
+				\end{bmatrix} \\
+				\text{However, as $Q$ is an orthogonal matrix, it must be symmetric } \Rightarrow Q = Q^T \\
+				Q = Q^T \Rightarrow q_{ij} = q_{ji} \text{ with the conditions } \{ i,j : i,j \leq m ; i \neq j \}
+			\end{gather*}
+\end{document}
